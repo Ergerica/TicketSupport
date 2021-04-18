@@ -6,66 +6,78 @@ import {
   TableCell,
   TablePagination,
   TableRow,
-  withStyles
+  withStyles,
 } from "@material-ui/core";
-import EnhancedTableHead from "../../../shared/components/EnhancedTableHead";
-import ColorfulChip from "../../../shared/components/ColorfulChip";
-import unixToDateString from "../../../shared/functions/unixToDateString";
-import HighlightedInformation from "../../../shared/components/HighlightedInformation";
-import currencyPrettyPrint from "../../../shared/functions/currencyPrettyPrint";
+import EnhancedTableHead from "../../../../shared/components/EnhancedTableHead";
+import ColorfulChip from "../../../../shared/components/ColorfulChip";
+import unixToDateString from "../../../../shared/functions/unixToDateString";
+import HighlightedInformation from "../../../../shared/components/HighlightedInformation";
+import currencyPrettyPrint from "../../../../shared/functions/currencyPrettyPrint";
+import transitions from "@material-ui/core/styles/transitions";
 
-const styles = theme => ({
+const styles = (theme) => ({
   tableWrapper: {
     overflowX: "auto",
-    width: "100%"
+    width: "100%",
   },
   blackBackground: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   },
   contentWrapper: {
     padding: theme.spacing(3),
     [theme.breakpoints.down("xs")]: {
-      padding: theme.spacing(2)
+      padding: theme.spacing(2),
     },
-    width: "100%"
+    width: "100%",
   },
   dBlock: {
-    display: "block !important"
+    display: "block !important",
   },
   dNone: {
-    display: "none !important"
+    display: "none !important",
   },
   firstData: {
-    paddingLeft: theme.spacing(3)
-  }
+    paddingLeft: theme.spacing(3),
+  },
 });
+
+const colors = {
+  Canceled: "#AB1243",
+  "In Progress": "#00AA42",
+  Complete: "#0055aa",
+};
 
 const rows = [
   {
-    id: "description",
+    id: "id",
     numeric: false,
-    label: "Action"
+    label: "ID",
   },
   {
-    id: "balanceChange",
+    id: "title",
     numeric: false,
-    label: "Balance change"
+    label: "Titulo",
+  },
+  {
+    id: "status",
+    numeric: false,
+    label: "Estatus",
   },
   {
     id: "date",
     numeric: false,
-    label: "Date"
+    label: "Fecha",
   },
   {
-    id: "paidUntil",
+    id: "responsible",
     numeric: false,
-    label: "Paid until"
-  }
+    label: "Responsable",
+  },
 ];
 
 const rowsPerPage = 25;
 
-function SubscriptionTable(props) {
+function DashboardTable(props) {
   const { transactions, theme, classes } = props;
   const [page, setPage] = useState(0);
 
@@ -91,30 +103,26 @@ function SubscriptionTable(props) {
                     scope="row"
                     className={classes.firstData}
                   >
-                    {transaction.description}
+                    {transaction.id}
+                  </TableCell>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    className={classes.firstData}
+                  >
+                    {transaction.title}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {transaction.balanceChange > 0 ? (
-                      <ColorfulChip
-                        label={`+${currencyPrettyPrint(
-                          transaction.balanceChange
-                        )}`}
-                        color={theme.palette.secondary.main}
-                      />
-                    ) : (
-                      <ColorfulChip
-                        label={currencyPrettyPrint(transaction.balanceChange)}
-                        color={theme.palette.error.dark}
-                      />
-                    )}
+                    <ColorfulChip
+                      label={transaction.status}
+                      color={colors[transaction.status]}
+                    />
                   </TableCell>
                   <TableCell component="th" scope="row">
                     {unixToDateString(transaction.timestamp)}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {transaction.paidUntil
-                      ? unixToDateString(transaction.paidUntil)
-                      : ""}
+                    {transaction.responsible ? transaction.responsible : ""}
                   </TableCell>
                 </TableRow>
               ))}
@@ -126,17 +134,17 @@ function SubscriptionTable(props) {
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
-            "aria-label": "Previous Page"
+            "aria-label": "Previous Page",
           }}
           nextIconButtonProps={{
-            "aria-label": "Next Page"
+            "aria-label": "Next Page",
           }}
           onChangePage={handleChangePage}
           classes={{
             select: classes.dNone,
             selectIcon: classes.dNone,
             actions: transactions.length > 0 ? classes.dBlock : classes.dNone,
-            caption: transactions.length > 0 ? classes.dBlock : classes.dNone
+            caption: transactions.length > 0 ? classes.dBlock : classes.dNone,
           }}
           labelRowsPerPage=""
         />
@@ -152,10 +160,10 @@ function SubscriptionTable(props) {
   );
 }
 
-SubscriptionTable.propTypes = {
+DashboardTable.propTypes = {
   theme: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  transactions: PropTypes.arrayOf(PropTypes.object).isRequired
+  transactions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(SubscriptionTable);
+export default withStyles(styles, { withTheme: true })(DashboardTable);

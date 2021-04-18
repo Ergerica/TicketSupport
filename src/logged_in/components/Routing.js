@@ -90,14 +90,10 @@ function Routing(props) {
         <PropsRoute
           path=""
           component={Dashboard}
-          toggleAccountActivation={toggleAccountActivation}
+          transactions={transactions}
           pushMessageToSnackbar={pushMessageToSnackbar}
-          CardChart={CardChart}
-          statistics={statistics}
-          targets={targets}
-          setTargets={setTargets}
-          isAccountActivated={isAccountActivated}
           selectDashboard={selectDashboard}
+          openAddBalanceDialog={openAddBalanceDialog}
         />
       </Switch>
     </div>

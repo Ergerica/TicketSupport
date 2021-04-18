@@ -112,43 +112,45 @@ function Main(props) {
 
   const fetchRandomTransactions = useCallback(() => {
     const transactions = [];
-    const iterations = 32;
+    const iterations = 100;
     const oneMonthSeconds = Math.round(60 * 60 * 24 * 30.5);
     const transactionTemplates = [
       {
-        description: "Starter subscription",
-        isSubscription: true,
-        balanceChange: -1499,
+        // id: 1,
+        title: "Problem reloading",
+        status: "In Progress",
+        responsible: "Admin Denys",
       },
       {
-        description: "Premium subscription",
-        isSubscription: true,
-        balanceChange: -2999,
+        title: "Error 404",
+        status: "Complete",
+        responsible: "Admin Erica",
       },
       {
-        description: "Business subscription",
-        isSubscription: true,
-        balanceChange: -4999,
+        title: "Lack of information",
+        status: "Canceled",
+        responsible: "Admin Angelica",
       },
       {
-        description: "Tycoon subscription",
-        isSubscription: true,
-        balanceChange: -9999,
+        title: "No data displayed",
+        status: "In Progress",
+        responsible: "Admin Carlos",
       },
       {
-        description: "Added funds",
-        isSubscription: false,
-        balanceChange: 2000,
+        title: "Slow load",
+        status: "In Progress",
+        responsible: "Admin Erica",
       },
       {
-        description: "Added funds",
-        isSubscription: false,
-        balanceChange: 5000,
+        title: "Terrible UI",
+        status: "Complete",
+        responsible: "Admin Denys",
       },
     ];
     let curUnix = Math.round(
       new Date().getTime() / 1000 - iterations * oneMonthSeconds
     );
+
     for (let i = 0; i < iterations; i += 1) {
       const randomTransactionTemplate =
         transactionTemplates[
@@ -156,9 +158,11 @@ function Main(props) {
         ];
       const transaction = {
         id: i,
-        description: randomTransactionTemplate.description,
-        balanceChange: randomTransactionTemplate.balanceChange,
-        paidUntil: curUnix + oneMonthSeconds,
+        title: randomTransactionTemplate.title,
+        status: randomTransactionTemplate.status,
+        date: "09/01/2020",
+        responsible: randomTransactionTemplate.responsible,
+        paidUntil: randomTransactionTemplate.responsible,
         timestamp: curUnix,
       };
       curUnix += oneMonthSeconds;

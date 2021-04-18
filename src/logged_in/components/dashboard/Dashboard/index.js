@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { List, Divider, Paper, withStyles } from "@material-ui/core";
+import TicketTable from "./TicketTable";
+import TicketInfo from "./TicketInfo";
 
 const styles = {
   divider: {
@@ -8,32 +10,32 @@ const styles = {
   },
 };
 
-function Subscription(props) {
+function Dashboard(props) {
   const {
     transactions,
     classes,
     openAddBalanceDialog,
-    selectSubscription,
+    selectDashboard,
   } = props;
 
-  useEffect(selectSubscription, [selectSubscription]);
+  useEffect(selectDashboard, [selectDashboard]);
 
   return (
     <Paper>
       <List disablePadding>
-        {/* <SubscriptionInfo openAddBalanceDialog={openAddBalanceDialog} /> */}
+        <TicketInfo openAddBalanceDialog={openAddBalanceDialog} />
         <Divider className={classes.divider} />
-        {/* <SubscriptionTable transactions={transactions} /> */}
+        <TicketTable transactions={transactions} />
       </List>
     </Paper>
   );
 }
 
-Subscription.propTypes = {
+Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
   transactions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectSubscription: PropTypes.func.isRequired,
+  selectDashboard: PropTypes.func.isRequired,
   openAddBalanceDialog: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(Subscription);
+export default withStyles(styles)(Dashboard);

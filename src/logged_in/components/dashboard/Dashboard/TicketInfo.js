@@ -4,30 +4,30 @@ import { ListItemText, Button, Toolbar, withStyles } from "@material-ui/core";
 
 const styles = {
   toolbar: {
-    justifyContent: "space-between"
-  }
+    justifyContent: "space-between",
+  },
 };
 
-function SubscriptionInfo(props) {
+function TicketInfo(props) {
   const { classes, openAddBalanceDialog } = props;
   return (
     <Toolbar className={classes.toolbar}>
-      <ListItemText primary="Status" secondary="Premium Account" />
+      <ListItemText primary="Tickets" secondary="Cuenta de user" />
       <Button
         variant="contained"
         color="secondary"
         onClick={openAddBalanceDialog}
         disableElevation
       >
-        Add Balance
+        Agregar ticket
       </Button>
     </Toolbar>
   );
 }
 
-SubscriptionInfo.propTypes = {
+TicketInfo.propTypes = {
   classes: PropTypes.object.isRequired,
-  openAddBalanceDialog: PropTypes.func.isRequired
+  openAddBalanceDialog: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(SubscriptionInfo);
+export default withStyles(styles)(TicketInfo);
