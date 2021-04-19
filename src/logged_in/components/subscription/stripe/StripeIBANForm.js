@@ -1,6 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TextField, Grid, InputAdornment } from "@material-ui/core";
+import {
+  TextField,
+  Grid,
+  InputAdornment,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@material-ui/core";
 import StripeTextField from "./StripeTextField";
 import { IbanElement } from "@stripe/react-stripe-js";
 
@@ -14,44 +21,44 @@ function StripeIBANForm(props) {
     name,
     setName,
     email,
-    setEmail
+    setEmail,
   } = props;
+
   return (
     <Grid container spacing={2} justify="space-between">
-      <Grid item xs={8}>
+      <Grid item xs={12}>
         <TextField
           variant="outlined"
           margin="none"
           required
-          label="Your Name"
+          fullWidth
+          label="Titulo"
           value={name}
-          onChange={event => {
+          onChange={(event) => {
             setName(event.target.value);
           }}
-          fullWidth
           autoFocus
           autoComplete="off"
           type="text"
         />
       </Grid>
-      <Grid item xs={4}>
-        <TextField
-          required
-          value={amount}
-          onChange={event => {
-            onAmountChange(parseInt(event.target.value));
-          }}
-          error={amountError ? true : false}
-          helperText={amountError}
-          variant="outlined"
+
+      <Grid item xs={12}>
+        <InputLabel required id="demo-simple-select-label">
+          Tipo
+        </InputLabel>
+        <Select
           fullWidth
-          type="number"
-          margin="none"
-          label="Amount"
-          InputProps={{
-            startAdornment: <InputAdornment position="start">$</InputAdornment>
-          }}
-        />
+          required
+          variant="outlined"
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+        >
+          <MenuItem value={10}>Buzon de sugerencias</MenuItem>
+          <MenuItem value={20}>Error de UI(Interfaz de usuario)</MenuItem>
+          <MenuItem value={30}>Error de base de datos</MenuItem>
+          <MenuItem value={30}>Error de servidor</MenuItem>
+        </Select>
       </Grid>
       <Grid item xs={12}>
         <TextField
@@ -59,31 +66,16 @@ function StripeIBANForm(props) {
           variant="outlined"
           fullWidth
           value={email}
-          onChange={event => {
+          onChange={(event) => {
             setEmail(event.target.value);
           }}
           type="email"
           margin="none"
-          label="Email"
+          label="Descripcion"
+          multiline
+          name="comment"
+          rows={3}
         />
-      </Grid>
-      <Grid item xs={12}>
-        <StripeTextField
-          margin="none"
-          variant="outlined"
-          fullWidth
-          label="IBAN"
-          error={stripeError ? true : false}
-          helperText={stripeError}
-          required
-          StripeElement={IbanElement}
-          stripeOptions={{ supportedCountries: ["SEPA"] }}
-          onChange={() => {
-            if (stripeError) {
-              setStripeError("");
-            }
-          }}
-        ></StripeTextField>
       </Grid>
     </Grid>
   );
@@ -98,7 +90,7 @@ StripeIBANForm.propTypes = {
   name: PropTypes.string.isRequired,
   setName: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
-  setEmail: PropTypes.func.isRequired
+  setEmail: PropTypes.func.isRequired,
 };
 
 export default StripeIBANForm;

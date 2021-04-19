@@ -44,7 +44,7 @@ function Main(props) {
   const [hasFetchedDateTimePicker, setHasFetchedDateTimePicker] = useState(
     false
   );
-  const [transactions, setTransactions] = useState([]);
+  const [tickets, setTickets] = useState([]);
   const [statistics, setStatistics] = useState({ views: [], profit: [] });
   const [posts, setPosts] = useState([]);
   const [targets, setTargets] = useState([]);
@@ -110,11 +110,11 @@ function Main(props) {
     setStatistics(statistics);
   }, [setStatistics]);
 
-  const fetchRandomTransactions = useCallback(() => {
-    const transactions = [];
+  const fetchRandomTickets = useCallback(() => {
+    const tickets = [];
     const iterations = 100;
     const oneMonthSeconds = Math.round(60 * 60 * 24 * 30.5);
-    const transactionTemplates = [
+    const ticketTemplates = [
       {
         // id: 1,
         title: "Problem reloading",
@@ -152,25 +152,23 @@ function Main(props) {
     );
 
     for (let i = 0; i < iterations; i += 1) {
-      const randomTransactionTemplate =
-        transactionTemplates[
-          Math.floor(Math.random() * transactionTemplates.length)
-        ];
-      const transaction = {
+      const randomTicketTemplate =
+        ticketTemplates[Math.floor(Math.random() * ticketTemplates.length)];
+      const ticket = {
         id: i,
-        title: randomTransactionTemplate.title,
-        status: randomTransactionTemplate.status,
+        title: randomTicketTemplate.title,
+        status: randomTicketTemplate.status,
         date: "09/01/2020",
-        responsible: randomTransactionTemplate.responsible,
-        paidUntil: randomTransactionTemplate.responsible,
+        responsible: randomTicketTemplate.responsible,
+        paidUntil: randomTicketTemplate.responsible,
         timestamp: curUnix,
       };
       curUnix += oneMonthSeconds;
-      transactions.push(transaction);
+      tickets.push(ticket);
     }
-    transactions.reverse();
-    setTransactions(transactions);
-  }, [setTransactions]);
+    tickets.reverse();
+    setTickets(tickets);
+  }, [setTickets]);
 
   const fetchRandomMessages = useCallback(() => {
     shuffle(persons);
@@ -310,13 +308,13 @@ function Main(props) {
   useEffect(() => {
     fetchRandomTargets();
     fetchRandomStatistics();
-    fetchRandomTransactions();
+    fetchRandomTickets();
     fetchRandomMessages();
     fetchRandomPosts();
   }, [
     fetchRandomTargets,
     fetchRandomStatistics,
-    fetchRandomTransactions,
+    fetchRandomTickets,
     fetchRandomMessages,
     fetchRandomPosts,
   ]);
@@ -346,7 +344,7 @@ function Main(props) {
           DateTimePicker={DateTimePicker}
           toggleAccountActivation={toggleAccountActivation}
           pushMessageToSnackbar={pushMessageToSnackbar}
-          transactions={transactions}
+          tickets={tickets}
           statistics={statistics}
           posts={posts}
           targets={targets}

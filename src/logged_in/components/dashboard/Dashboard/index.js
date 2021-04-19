@@ -11,12 +11,7 @@ const styles = {
 };
 
 function Dashboard(props) {
-  const {
-    transactions,
-    classes,
-    openAddBalanceDialog,
-    selectDashboard,
-  } = props;
+  const { tickets, classes, openAddBalanceDialog, selectDashboard } = props;
 
   useEffect(selectDashboard, [selectDashboard]);
 
@@ -25,7 +20,7 @@ function Dashboard(props) {
       <List disablePadding>
         <TicketInfo openAddBalanceDialog={openAddBalanceDialog} />
         <Divider className={classes.divider} />
-        <TicketTable transactions={transactions} />
+        <TicketTable tickets={tickets} />
       </List>
     </Paper>
   );
@@ -33,7 +28,7 @@ function Dashboard(props) {
 
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
-  transactions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tickets: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectDashboard: PropTypes.func.isRequired,
   openAddBalanceDialog: PropTypes.func.isRequired,
 };

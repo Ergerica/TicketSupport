@@ -78,7 +78,7 @@ const rows = [
 const rowsPerPage = 25;
 
 function DashboardTable(props) {
-  const { transactions, theme, classes } = props;
+  const { tickets, theme, classes } = props;
   const [page, setPage] = useState(0);
 
   const handleChangePage = useCallback(
@@ -88,41 +88,41 @@ function DashboardTable(props) {
     [setPage]
   );
 
-  if (transactions.length > 0) {
+  if (tickets.length > 0) {
     return (
       <div className={classes.tableWrapper}>
         <Table aria-labelledby="tableTitle">
-          <EnhancedTableHead rowCount={transactions.length} rows={rows} />
+          <EnhancedTableHead rowCount={tickets.length} rows={rows} />
           <TableBody>
-            {transactions
+            {tickets
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((transaction, index) => (
+              .map((ticket, index) => (
                 <TableRow hover tabIndex={-1} key={index}>
                   <TableCell
                     component="th"
                     scope="row"
                     className={classes.firstData}
                   >
-                    {transaction.id}
+                    {ticket.id}
                   </TableCell>
                   <TableCell
                     component="th"
                     scope="row"
                     className={classes.firstData}
                   >
-                    {transaction.title}
+                    {ticket.title}
                   </TableCell>
                   <TableCell component="th" scope="row">
                     <ColorfulChip
-                      label={transaction.status}
-                      color={colors[transaction.status]}
+                      label={ticket.status}
+                      color={colors[ticket.status]}
                     />
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {unixToDateString(transaction.timestamp)}
+                    {unixToDateString(ticket.timestamp)}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {transaction.responsible ? transaction.responsible : ""}
+                    {ticket.responsible ? ticket.responsible : ""}
                   </TableCell>
                 </TableRow>
               ))}
@@ -130,7 +130,7 @@ function DashboardTable(props) {
         </Table>
         <TablePagination
           component="div"
-          count={transactions.length}
+          count={tickets.length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
@@ -143,8 +143,8 @@ function DashboardTable(props) {
           classes={{
             select: classes.dNone,
             selectIcon: classes.dNone,
-            actions: transactions.length > 0 ? classes.dBlock : classes.dNone,
-            caption: transactions.length > 0 ? classes.dBlock : classes.dNone,
+            actions: tickets.length > 0 ? classes.dBlock : classes.dNone,
+            caption: tickets.length > 0 ? classes.dBlock : classes.dNone,
           }}
           labelRowsPerPage=""
         />
@@ -153,9 +153,7 @@ function DashboardTable(props) {
   }
   return (
     <div className={classes.contentWrapper}>
-      <HighlightedInformation>
-        No transactions received yet.
-      </HighlightedInformation>
+      <HighlightedInformation>No tickets received yet.</HighlightedInformation>
     </div>
   );
 }
@@ -163,7 +161,7 @@ function DashboardTable(props) {
 DashboardTable.propTypes = {
   theme: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  transactions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tickets: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(DashboardTable);
