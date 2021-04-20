@@ -12,7 +12,7 @@ function StripeCardForm(props) {
     amountError,
     onAmountChange,
     name,
-    setName
+    setName,
   } = props;
   return (
     <Grid container spacing={2} justify="space-between">
@@ -21,9 +21,9 @@ function StripeCardForm(props) {
           variant="outlined"
           margin="none"
           required
-          label="Your Name"
+          label="Titulo"
           value={name}
-          onChange={event => {
+          onChange={(event) => {
             setName(event.target.value);
           }}
           fullWidth
@@ -36,7 +36,7 @@ function StripeCardForm(props) {
         <TextField
           required
           value={amount}
-          onChange={event => {
+          onChange={(event) => {
             onAmountChange(parseInt(event.target.value));
           }}
           error={amountError ? true : false}
@@ -47,7 +47,7 @@ function StripeCardForm(props) {
           margin="none"
           label="Amount"
           InputProps={{
-            startAdornment: <InputAdornment position="start">$</InputAdornment>
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}
         />
       </Grid>
@@ -79,7 +79,7 @@ StripeCardForm.propTypes = {
   onAmountChange: PropTypes.func.isRequired,
   amountError: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  setName: PropTypes.func.isRequired
+  setName: PropTypes.func.isRequired,
 };
 
 export default StripeCardForm;

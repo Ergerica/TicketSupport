@@ -51,7 +51,7 @@ function Routing(props) {
     DateTimePicker,
     pushMessageToSnackbar,
     posts,
-    transactions,
+    tickets,
     toggleAccountActivation,
     CardChart,
     statistics,
@@ -82,7 +82,7 @@ function Routing(props) {
         <PropsRoute
           path="/c/subscription"
           component={Subscription}
-          transactions={transactions}
+          transactions={tickets}
           pushMessageToSnackbar={pushMessageToSnackbar}
           selectSubscription={selectSubscription}
           openAddBalanceDialog={openAddBalanceDialog}
@@ -90,14 +90,10 @@ function Routing(props) {
         <PropsRoute
           path=""
           component={Dashboard}
-          toggleAccountActivation={toggleAccountActivation}
+          tickets={tickets}
           pushMessageToSnackbar={pushMessageToSnackbar}
-          CardChart={CardChart}
-          statistics={statistics}
-          targets={targets}
-          setTargets={setTargets}
-          isAccountActivated={isAccountActivated}
           selectDashboard={selectDashboard}
+          openAddBalanceDialog={openAddBalanceDialog}
         />
       </Switch>
     </div>
@@ -114,7 +110,7 @@ Routing.propTypes = {
   setTargets: PropTypes.func.isRequired,
   setPosts: PropTypes.func.isRequired,
   posts: PropTypes.arrayOf(PropTypes.object).isRequired,
-  transactions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tickets: PropTypes.arrayOf(PropTypes.object).isRequired,
   toggleAccountActivation: PropTypes.func,
   CardChart: PropTypes.elementType,
   statistics: PropTypes.object.isRequired,
