@@ -8,6 +8,7 @@ import ConsecutiveSnackbarMessages from "../../shared/components/ConsecutiveSnac
 import smoothScrollTop from "../../shared/functions/smoothScrollTop";
 import persons from "../dummy_data/persons";
 import LazyLoadAddBalanceDialog from "./dashboard/AddTicketInfo";
+import LazyLoadTicketDetailDialog from "./dashboard/ticketDetails/DetailModalInfo";
 
 const styles = (theme) => ({
   main: {
@@ -51,6 +52,8 @@ function Main(props) {
   const [messages, setMessages] = useState([]);
   const [isAccountActivated, setIsAccountActivated] = useState(false);
   const [isAddBalanceDialogOpen, setIsAddBalanceDialogOpen] = useState(false);
+  const [ticketDetailsOpen, setTicketDetailsOpen] = useState(false);
+  const [ticketDetails, setTicketDetails] = useState();
   const [pushMessageToSnackbar, setPushMessageToSnackbar] = useState(null);
 
   const fetchRandomTargets = useCallback(() => {
@@ -79,6 +82,21 @@ function Main(props) {
   const closeAddBalanceDialog = useCallback(() => {
     setIsAddBalanceDialogOpen(false);
   }, [setIsAddBalanceDialogOpen]);
+
+  const openTicketDetails = useCallback(
+    (ticket) => {
+      setTicketDetails(ticket);
+      setTicketDetailsOpen(true);
+    },
+    [setTicketDetailsOpen]
+  );
+  const setStatus = useCallback(() => {
+    alert("hi");
+  }, []);
+
+  const closeTicketDetails = useCallback(() => {
+    setTicketDetailsOpen(false);
+  }, [setTicketDetailsOpen]);
 
   const onPaymentSuccess = useCallback(() => {
     pushMessageToSnackbar({
@@ -120,31 +138,67 @@ function Main(props) {
         title: "Problem reloading",
         status: "In Progress",
         responsible: "Admin Denys",
+        description:
+          "Al dar enter la pagina se friza y no funciona hasta dar f5",
+        type: "Erro de qUi",
+        priority: "3",
+        creationDate: "12/04/2021",
+        finishDate: "12/05/2021",
       },
       {
         title: "Error 404",
         status: "Complete",
         responsible: "Admin Erica",
+        description:
+          "Al dar enter la pagina se friza y no funciona hasta dar f5",
+        type: "Erro de vUi",
+        priority: "3",
+        creationDate: "12/04/2021",
+        finishDate: "12/05/2021",
       },
       {
         title: "Lack of information",
         status: "Canceled",
         responsible: "Admin Angelica",
+        description:
+          "Al dar enter la pagina se friza y no funciona hasta dar f5",
+        type: "Erro de lUi",
+        priority: "3",
+        creationDate: "12/04/2021",
+        finishDate: "12/05/2021",
       },
       {
         title: "No data displayed",
         status: "In Progress",
         responsible: "Admin Carlos",
+        description:
+          "Al dar enter la pagina se friza y no funciona hasta dar f5",
+        type: "Erro de sUi",
+        priority: "3",
+        creationDate: "12/04/2021",
+        finishDate: "11/05/2021",
       },
       {
         title: "Slow load",
         status: "In Progress",
         responsible: "Admin Erica",
+        description:
+          "Al dar enter la pagina se friza y no funciona hasta dar f5",
+        type: "Erro de mUi",
+        priority: "3",
+        creationDate: "12/04/2021",
+        finishDate: "02/05/2022",
       },
       {
         title: "Terrible UI",
         status: "Complete",
         responsible: "Admin Denys",
+        description:
+          "Al dar enter la pagina se friza y no funciona hasta dar f5",
+        type: "Erro de bUi",
+        priority: "3",
+        creationDate: "10/03/2021",
+        finishDate: "11/05/2021",
       },
     ];
     let curUnix = Math.round(
@@ -162,6 +216,11 @@ function Main(props) {
         responsible: randomTicketTemplate.responsible,
         paidUntil: randomTicketTemplate.responsible,
         timestamp: curUnix,
+        type: randomTicketTemplate.type,
+        description: randomTicketTemplate.description,
+        priority: randomTicketTemplate.priority,
+        creationDate: randomTicketTemplate.creationDate,
+        finishDate: randomTicketTemplate.finishDate,
       };
       curUnix += oneMonthSeconds;
       tickets.push(ticket);
@@ -326,6 +385,16 @@ function Main(props) {
         onClose={closeAddBalanceDialog}
         onSuccess={onPaymentSuccess}
       />
+      <LazyLoadTicketDetailDialog
+        ticket={ticketDetails}
+        open={ticketDetailsOpen}
+        setStatus={setStatus}
+        onClose={closeTicketDetails}
+        onSuccess={() => {
+          alert("button touched");
+          closeTicketDetails();
+        }}
+      />
       <NavBar
         selectedTab={selectedTab}
         messages={messages}
@@ -352,6 +421,7 @@ function Main(props) {
           selectPosts={selectPosts}
           selectSubscription={selectSubscription}
           openAddBalanceDialog={openAddBalanceDialog}
+          openTicketDetails={openTicketDetails}
           setTargets={setTargets}
           setPosts={setPosts}
         />

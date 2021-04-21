@@ -63,6 +63,7 @@ function Routing(props) {
     selectPosts,
     selectSubscription,
     openAddBalanceDialog,
+    openTicketDetails,
   } = props;
   return (
     <div className={classes.wrapper}>
@@ -94,6 +95,7 @@ function Routing(props) {
           pushMessageToSnackbar={pushMessageToSnackbar}
           selectDashboard={selectDashboard}
           openAddBalanceDialog={openAddBalanceDialog}
+          openTicketDetails={openTicketDetails}
         />
       </Switch>
     </div>

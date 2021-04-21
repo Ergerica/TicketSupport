@@ -78,7 +78,7 @@ const rows = [
 const rowsPerPage = 25;
 
 function DashboardTable(props) {
-  const { tickets, theme, classes } = props;
+  const { tickets, theme, classes, openTicketDetails } = props;
   const [page, setPage] = useState(0);
 
   const handleChangePage = useCallback(
@@ -101,7 +101,7 @@ function DashboardTable(props) {
                   hover
                   tabIndex={-1}
                   key={index}
-                  onClick={() => alert(`${ticket.title}`)}
+                  onClick={() => openTicketDetails(ticket)}
                 >
                   <TableCell
                     component="th"
