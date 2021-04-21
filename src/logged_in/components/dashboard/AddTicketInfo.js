@@ -9,8 +9,8 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { Grid, Button, Box, withTheme } from "@material-ui/core";
-import StripeCardForm from "./stripe/StripeCardForm";
-import StripeIbanForm from "./stripe/StripeIBANForm";
+import StripeCardForm from "../subscription/stripe/StripeCardForm";
+import CreateTicketForm from "./CreateTicketForm";
 import FormDialog from "../../../shared/components/FormDialog";
 import ColoredButton from "../../../shared/components/ColoredButton";
 import HighlightedInformation from "../../../shared/components/HighlightedInformation";
@@ -28,6 +28,9 @@ const AddBalanceDialog = withTheme(function (props) {
   const [stripeError, setStripeError] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
+  const [type, setType] = useState("");
   const [amount, setAmount] = useState(0);
   const [amountError, setAmountError] = useState("");
   const elements = useElements();
@@ -61,14 +64,20 @@ const AddBalanceDialog = withTheme(function (props) {
     return (
       <Fragment>
         <Box mb={2}>
-          <StripeIbanForm
+          <CreateTicketForm
             stripeError={stripeError}
             setStripeError={setStripeError}
             setName={setName}
             setEmail={setEmail}
+            setTitle={setTitle}
+            setDescription={setDescription}
+            setType={setType}
             name={name}
             email={email}
             amount={amount}
+            title={title}
+            type={type}
+            description={description}
             amountError={amountError}
             onAmountChange={onAmountChange}
           />
@@ -86,7 +95,7 @@ const AddBalanceDialog = withTheme(function (props) {
     <FormDialog
       open={open}
       onClose={onClose}
-      headline="Crear ticket"
+      headline="Agregar ticket"
       hideBackdrop={false}
       loading={loading}
       onFormSubmit={async (event) => {
@@ -119,6 +128,7 @@ const AddBalanceDialog = withTheme(function (props) {
             type="submit"
             size="large"
             disabled={loading}
+            onClick={() => alert("HOLA")}
           >
             Crear Ticket{loading && <ButtonCircularProgress />}
           </Button>

@@ -8,16 +8,22 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import StripeTextField from "./StripeTextField";
+import StripeTextField from "../subscription/stripe/StripeTextField";
 import { IbanElement } from "@stripe/react-stripe-js";
 
-function StripeIBANForm(props) {
+function CreateTicketForm(props) {
   const {
     stripeError,
     setStripeError,
     amount,
     amountError,
     onAmountChange,
+    description,
+    title,
+    type,
+    setType,
+    setTitle,
+    setDescription,
     name,
     setName,
     email,
@@ -33,8 +39,9 @@ function StripeIBANForm(props) {
           required
           fullWidth
           label="Titulo"
-          value={name}
+          value={title}
           onChange={(event) => {
+            setTitle(event.target.value);
             setName(event.target.value);
           }}
           autoFocus
@@ -50,6 +57,10 @@ function StripeIBANForm(props) {
         <Select
           fullWidth
           required
+          value={type}
+          onChange={(event) => {
+            setType(event.target.value);
+          }}
           variant="outlined"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -65,9 +76,10 @@ function StripeIBANForm(props) {
           required
           variant="outlined"
           fullWidth
-          value={email}
+          value={description}
           onChange={(event) => {
-            setEmail(event.target.value);
+            setDescription(event.target.value);
+            console.log({ description });
           }}
           type="email"
           margin="none"
@@ -81,7 +93,7 @@ function StripeIBANForm(props) {
   );
 }
 
-StripeIBANForm.propTypes = {
+CreateTicketForm.propTypes = {
   stripeError: PropTypes.string.isRequired,
   setStripeError: PropTypes.func.isRequired,
   amount: PropTypes.number.isRequired,
@@ -93,4 +105,4 @@ StripeIBANForm.propTypes = {
   setEmail: PropTypes.func.isRequired,
 };
 
-export default StripeIBANForm;
+export default CreateTicketForm;

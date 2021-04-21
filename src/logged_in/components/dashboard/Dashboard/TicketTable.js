@@ -13,7 +13,7 @@ import ColorfulChip from "../../../../shared/components/ColorfulChip";
 import unixToDateString from "../../../../shared/functions/unixToDateString";
 import HighlightedInformation from "../../../../shared/components/HighlightedInformation";
 import currencyPrettyPrint from "../../../../shared/functions/currencyPrettyPrint";
-import transitions from "@material-ui/core/styles/transitions";
+import tickets from "@material-ui/core/styles/transitions";
 
 const styles = (theme) => ({
   tableWrapper: {
@@ -97,7 +97,12 @@ function DashboardTable(props) {
             {tickets
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((ticket, index) => (
-                <TableRow hover tabIndex={-1} key={index}>
+                <TableRow
+                  hover
+                  tabIndex={-1}
+                  key={index}
+                  onClick={() => alert(`${ticket.title}`)}
+                >
                   <TableCell
                     component="th"
                     scope="row"

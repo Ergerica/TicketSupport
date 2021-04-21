@@ -7,7 +7,7 @@ import NavBar from "./navigation/NavBar";
 import ConsecutiveSnackbarMessages from "../../shared/components/ConsecutiveSnackbarMessages";
 import smoothScrollTop from "../../shared/functions/smoothScrollTop";
 import persons from "../dummy_data/persons";
-import LazyLoadAddBalanceDialog from "./subscription/LazyLoadAddBalanceDialog";
+import LazyLoadAddBalanceDialog from "./dashboard/AddTicketInfo";
 
 const styles = (theme) => ({
   main: {
