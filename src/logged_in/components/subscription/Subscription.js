@@ -9,21 +9,14 @@ const styles = {
 };
 
 function Subscription(props) {
-  const {
-    transactions,
-    classes,
-    openAddBalanceDialog,
-    selectSubscription,
-  } = props;
+  const { classes, selectSubscription } = props;
 
   useEffect(selectSubscription, [selectSubscription]);
 
   return (
     <Paper>
       <List disablePadding>
-        {/* <SubscriptionInfo openAddBalanceDialog={openAddBalanceDialog} /> */}
         <Divider className={classes.divider} />
-        {/* <SubscriptionTable transactions={transactions} /> */}
       </List>
     </Paper>
   );

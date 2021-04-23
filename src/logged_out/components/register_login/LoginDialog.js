@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useRef, Fragment } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
 import { withRouter } from "react-router-dom";
 import {
   TextField,
@@ -11,7 +10,6 @@ import {
   withStyles,
 } from "@material-ui/core";
 import FormDialog from "../../../shared/components/FormDialog";
-import HighlightedInformation from "../../../shared/components/HighlightedInformation";
 import ButtonCircularProgress from "../../../shared/components/ButtonCircularProgress";
 import VisibilityPasswordTextField from "../../../shared/components/VisibilityPasswordTextField";
 import { logIn } from "../../../api";
@@ -38,14 +36,7 @@ const styles = (theme) => ({
 });
 
 function LoginDialog(props) {
-  const {
-    setStatus,
-    history,
-    classes,
-    onClose,
-    openChangePasswordDialog,
-    status,
-  } = props;
+  const { setStatus, history, classes, onClose, status } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -54,22 +45,17 @@ function LoginDialog(props) {
 
   const handleChange = (event) => {
     setRememberMe(event.target.checked);
-    console.log(event.target.checked);
   };
 
   const login = useCallback(() => {
     setIsLoading(true);
     setStatus(null);
 
-    console.log(rememberMe);
-
     logIn(loginEmail.current.value, loginPassword.current.value).then(
       (response) => {
         if (response) {
-          console.log({ response });
           history.push("/c/dashboard");
 
-          console.log("tokeeenee", localStorage.getItem("app_token"));
           if (rememberMe) {
             localStorage.setItem("remember_session", "true");
           }

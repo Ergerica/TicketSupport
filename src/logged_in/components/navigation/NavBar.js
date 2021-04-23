@@ -6,30 +6,24 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Avatar,
   Drawer,
   List,
   IconButton,
   ListItem,
   ListItemIcon,
-  ListItemText,
   Hidden,
   Tooltip,
   Box,
   withStyles,
-  isWidthUp,
   withWidth,
 } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import ImageIcon from "@material-ui/icons/Image";
-import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import MenuIcon from "@material-ui/icons/Menu";
 import SupervisorAccountIcon from "@material-ui/icons/AccountCircle";
 import MessagePopperButton from "./MessagePopperButton";
 import SideDrawer from "./SideDrawer";
-import Balance from "./Balance";
 import NavigationDrawer from "../../../shared/components/NavigationDrawer";
 
 const styles = (theme) => ({
@@ -128,14 +122,7 @@ const styles = (theme) => ({
 });
 
 function NavBar(props) {
-  const {
-    selectedTab,
-    messages,
-    classes,
-    width,
-    openAddBalanceDialog,
-    history,
-  } = props;
+  const { selectedTab, messages, classes } = props;
   // Will be use to make website more accessible by screen readers
   const links = useRef([]);
   const [isMobileOpen, setIsMobileOpen] = useState(false);

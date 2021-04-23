@@ -92,25 +92,9 @@ function Main(props) {
     },
     [setTicketDetailsOpen]
   );
-  const setStatus = useCallback(
-    (status) => {
-      updateTicketStatus(ticketDetails.ticketID, status).then(() => {
-        window.location.reload();
-      });
-    },
-    [ticketDetails]
-  );
-
   const closeTicketDetails = useCallback(() => {
     setTicketDetailsOpen(false);
   }, [setTicketDetailsOpen]);
-
-  const onPaymentSuccess = useCallback(() => {
-    pushMessageToSnackbar({
-      text: "Your balance has been updated.",
-    });
-    setIsAddBalanceDialogOpen(false);
-  }, [pushMessageToSnackbar, setIsAddBalanceDialogOpen]);
 
   const fetchRandomStatistics = useCallback(() => {
     const statistics = { profit: [], views: [] };
@@ -372,8 +356,11 @@ function Main(props) {
   );
 
   const fetchTickets = useCallback(() => {
+    const token = localStorage.getItem("app_token");
+    if (!token) {
+      return;
+    }
     getTickets().then((response) => {
-      console.log({ response });
       if (response && response.tickets && Array.isArray(response.tickets)) {
         setTickets(response.tickets);
       }
@@ -382,8 +369,11 @@ function Main(props) {
 
   const fetchNotifications = useCallback(() => {
     const interval = setInterval(() => {
+      const token = localStorage.getItem("app_token");
+      if (!token) {
+        return;
+      }
       getNotifications().then((messages) => {
-        console.log({ messages });
         if (messages && Array.isArray(messages)) {
           setMessages(messages.reverse());
         }
@@ -393,14 +383,40 @@ function Main(props) {
   }, [setMessages]);
 
   useEffect(() => {
-    const remember = localStorage.getItem("remember_session");
     const user = localStorage.getItem("current_user");
     const token = localStorage.getItem("app_token");
 
     if (!user && !token) {
       history.push("");
     }
-  }, []);
+  });
+
+  const setStatus = useCallback(
+    (status) => {
+      updateTicketStatus(ticketDetails.ticketID, status).then((r) => {
+        if (!r) {
+          alert(
+            "Ha ocurrido un error. Intente de nuevo luego de unos minutos."
+          );
+          return;
+        }
+        setTicketDetails({
+          ...ticketDetails,
+          status,
+        });
+        fetchTickets();
+      });
+    },
+    [ticketDetails, fetchTickets]
+  );
+
+  const onPaymentSuccess = useCallback(() => {
+    fetchTickets();
+    pushMessageToSnackbar({
+      text: "Se ha creado el Ticket.",
+    });
+    setIsAddBalanceDialogOpen(false);
+  }, [pushMessageToSnackbar, setIsAddBalanceDialogOpen, fetchTickets]);
 
   useEffect(() => {
     fetchRandomTargets();

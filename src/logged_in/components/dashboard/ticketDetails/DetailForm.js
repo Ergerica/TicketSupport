@@ -1,21 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
-import {
-  TextField,
-  Grid,
-  InputAdornment,
-  InputLabel,
-  Select,
-  Typography,
-  MenuItem,
-} from "@material-ui/core";
-import StripeTextField from "../../subscription/stripe/StripeTextField";
-import { IbanElement } from "@stripe/react-stripe-js";
-const isAdmin = !!localStorage.getItem("current_user")
-  ? JSON.parse(localStorage.getItem("current_user")).userType !== "user"
-  : false;
+import { Grid, Select, Typography, MenuItem } from "@material-ui/core";
+
 function CreateTicketForm(props) {
   const { ticket, setStatus } = props;
+
+  const isAdmin = React.useMemo(() => {
+    return !!localStorage.getItem("current_user")
+      ? JSON.parse(localStorage.getItem("current_user")).userType !== "user"
+      : false;
+  }, []);
 
   return (
     <Grid container spacing={3}>
@@ -99,16 +92,6 @@ function CreateTicketForm(props) {
   );
 }
 
-CreateTicketForm.propTypes = {
-  stripeError: PropTypes.string.isRequired,
-  setStripeError: PropTypes.func.isRequired,
-  amount: PropTypes.number.isRequired,
-  onAmountChange: PropTypes.func.isRequired,
-  amountError: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  setName: PropTypes.func.isRequired,
-  email: PropTypes.string.isRequired,
-  setEmail: PropTypes.func.isRequired,
-};
+CreateTicketForm.propTypes = {};
 
 export default CreateTicketForm;

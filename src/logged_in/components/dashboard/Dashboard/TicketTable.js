@@ -10,10 +10,7 @@ import {
 } from "@material-ui/core";
 import EnhancedTableHead from "../../../../shared/components/EnhancedTableHead";
 import ColorfulChip from "../../../../shared/components/ColorfulChip";
-import unixToDateString from "../../../../shared/functions/unixToDateString";
 import HighlightedInformation from "../../../../shared/components/HighlightedInformation";
-import currencyPrettyPrint from "../../../../shared/functions/currencyPrettyPrint";
-import tickets from "@material-ui/core/styles/transitions";
 
 const styles = (theme) => ({
   tableWrapper: {
@@ -79,7 +76,7 @@ const rows = [
 const rowsPerPage = 25;
 
 function DashboardTable(props) {
-  const { tickets, theme, classes, openTicketDetails } = props;
+  const { tickets, classes, openTicketDetails } = props;
   const [page, setPage] = useState(0);
 
   const handleChangePage = useCallback(
