@@ -1,13 +1,6 @@
-# React SaaS Template
-Remains of a SaaS business I once tried to build. Now transformed into a template for building an SaaS/admin application using React + Material-UI.
+# Project TIcketSupport
+Project For support for the class SOftware maintenance. Consists of a page to give support to users who need help by creating tickets for IT support with descriptions of their problem.
 
-[**Check out the demo**](https://reactsaastemplate.com)
-
-![Node.js CI](https://github.com/dunky11/react-saas-template/workflows/Node.js%20CI/badge.svg)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=dunky11/react-saas-template)](https://dependabot.com)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-
-[<img src="/.github/gifs/showcase.gif">](https://reactsaastemplate.com "Go to demo website")
 
 
 ## Getting Started
