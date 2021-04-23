@@ -13,13 +13,12 @@ function Home(props) {
     <Fragment>
       <HeadSection />
       <FeatureSection />
-      <PricingSection />
     </Fragment>
   );
 }
 
 Home.propTypes = {
-  selectHome: PropTypes.func.isRequired
+  selectHome: PropTypes.func.isRequired,
 };
 
 export default Home;

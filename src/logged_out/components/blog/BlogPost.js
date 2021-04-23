@@ -35,7 +35,7 @@ function BlogPost(props) {
   const { classes, date, title, src, content, otherArticles } = props;
 
   useEffect(() => {
-    document.title = `WaVer - ${title}`;
+    document.title = `TicketSupport - ${title}`;
     smoothScrollTop();
   }, [title]);
 
@@ -70,7 +70,7 @@ function BlogPost(props) {
                           <ShareButton
                             type={type}
                             title="React SaaS Template"
-                            description="I found an awesome template for an webapp using React!"
+                            description="Mira nuestra APP de soporte - Ticket Support"
                             disableElevation
                             variant="contained"
                             className="text-white"
