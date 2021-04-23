@@ -405,6 +405,9 @@ function Main(props) {
           status,
         });
         fetchTickets();
+        pushMessageToSnackbar({
+          text: `Se ha actualizado el estado del ticket a ${status}`,
+        });
       });
     },
     [ticketDetails, fetchTickets]
@@ -449,8 +452,12 @@ function Main(props) {
         setStatus={setStatus}
         onClose={closeTicketDetails}
         onSuccess={() => {
-          alert("button touched");
           closeTicketDetails();
+        }}
+        onCancelTicket={() => {
+          pushMessageToSnackbar({
+            text: "Se ha cancelado el Ticket.",
+          });
         }}
       />
       <NavBar

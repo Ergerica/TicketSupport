@@ -9,7 +9,7 @@ import ButtonCircularProgress from "../../../../shared/components/ButtonCircular
 import { cancelTicket } from "../../../../api";
 
 const AddBalanceDialog = withTheme(function (props) {
-  const { open, onClose, onSuccess, ticket, setStatus } = props;
+  const { open, onClose, onSuccess, ticket, setStatus, onCancelTicket } = props;
 
   const isAdmin = React.useMemo(() => {
     return !!localStorage.getItem("current_user")
@@ -52,8 +52,12 @@ const AddBalanceDialog = withTheme(function (props) {
               size="large"
               disabled={loading}
               onClick={() => {
-                cancelTicket(ticket.ticketID).then(() => {
-                  window.location.reload();
+                cancelTicket(ticket.ticketID).then((r) => {
+                  if (r) {
+                    onCancelTicket();
+                    return;
+                  }
+                  alert("Ha occurido un problema.");
                 });
               }}
             >
@@ -74,7 +78,7 @@ AddBalanceDialog.propTypes = {
 };
 
 function Wrapper(props) {
-  const { open, onClose, onSuccess, ticket, setStatus } = props;
+  const { open, onClose, onSuccess, ticket, setStatus, onCancelTicket } = props;
   return (
     <div>
       {open && (
@@ -84,6 +88,7 @@ function Wrapper(props) {
           onClose={onClose}
           onSuccess={onSuccess}
           setStatus={setStatus}
+          onCancelTicket={onCancelTicket}
         />
       )}
     </div>
