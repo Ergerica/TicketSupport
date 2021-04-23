@@ -11,7 +11,9 @@ import {
 } from "@material-ui/core";
 import StripeTextField from "../../subscription/stripe/StripeTextField";
 import { IbanElement } from "@stripe/react-stripe-js";
-const isAdmin = true;
+const isAdmin = !!localStorage.getItem("current_user")
+  ? JSON.parse(localStorage.getItem("current_user")).userType !== "user"
+  : false;
 function CreateTicketForm(props) {
   const { ticket, setStatus } = props;
 
@@ -22,7 +24,7 @@ function CreateTicketForm(props) {
           ID:
         </Typography>
         <Typography gutterBottom variant="subtitle1">
-          {ticket.id}
+          {ticket.ticketID}
         </Typography>
         <Typography variant="body1" color="textSecondary">
           Title:
@@ -65,30 +67,32 @@ function CreateTicketForm(props) {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
           >
-            <MenuItem value={10}>Complete</MenuItem>
-            <MenuItem value={20}>Cancelled</MenuItem>
-            <MenuItem value={30}>In Progress</MenuItem>
+            <MenuItem value={"Complete"}>Complete</MenuItem>
+            <MenuItem value={"Cancelled"}>Cancelled</MenuItem>
+            <MenuItem value={"Progress"}>In Progress</MenuItem>
           </Select>
         ) : (
-          <Typography gutterBottom variant="subtitle1"></Typography>
+          <Typography gutterBottom variant="subtitle1">
+            {ticket.status}
+          </Typography>
         )}
         <Typography variant="body1" color="textSecondary">
           Responable:
         </Typography>
         <Typography gutterBottom variant="subtitle1">
-          {ticket.responsible}
+          {ticket.creatorID}
         </Typography>
         <Typography variant="body1" color="textSecondary">
           Fecha Creación:
         </Typography>
         <Typography gutterBottom variant="subtitle1">
-          {ticket.creationDate}
+          {new Date(ticket.createdAt).toISOString().split("T")[0]}
         </Typography>
         <Typography variant="body1" color="textSecondary">
-          Fecha de Solución:
+          Fecha de ultima actualizacion:
         </Typography>
         <Typography gutterBottom variant="subtitle1">
-          {ticket.finishDate}
+          {new Date(ticket.updatedAt).toISOString().split("T")[0]}
         </Typography>
       </Grid>
     </Grid>

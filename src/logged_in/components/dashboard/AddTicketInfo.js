@@ -15,6 +15,7 @@ import FormDialog from "../../../shared/components/FormDialog";
 import ColoredButton from "../../../shared/components/ColoredButton";
 import HighlightedInformation from "../../../shared/components/HighlightedInformation";
 import ButtonCircularProgress from "../../../shared/components/ButtonCircularProgress";
+import { createTicket } from "../../../api";
 
 const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
 
@@ -128,7 +129,16 @@ const AddBalanceDialog = withTheme(function (props) {
             type="submit"
             size="large"
             disabled={loading}
-            onClick={() => alert("HOLA")}
+            onClick={() => {
+              createTicket(title, description, type).then((r) => {
+                if (r) {
+                  alert("Ticket Agregado");
+                  window.location.reload();
+                  return;
+                }
+                alert("Ha ocurrido un error.");
+              });
+            }}
           >
             Crear Ticket{loading && <ButtonCircularProgress />}
           </Button>

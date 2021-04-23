@@ -19,7 +19,7 @@ function MessageListItem(props) {
 
   return (
     <ListItem divider={divider}>
-      <ListItemAvatar>
+      {/* <ListItemAvatar>
         {hasErrorOccurred ? (
           <ErrorIcon color="secondary" />
         ) : (
@@ -28,10 +28,13 @@ function MessageListItem(props) {
             onError={handleError}
           />
         )}
-      </ListItemAvatar>
+      </ListItemAvatar> */}
       <ListItemText
-        primary={message.text}
-        secondary={`${formatDistance(message.date * 1000, new Date())} ago`}
+        primary={`#${message.ticketID} ha sido actualizado a **${message.toStatus}**.`}
+        secondary={`${formatDistance(
+          new Date(message.changed_at),
+          new Date()
+        )} ago`}
       />
     </ListItem>
   );

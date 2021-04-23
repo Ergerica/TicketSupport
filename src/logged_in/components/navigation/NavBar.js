@@ -20,6 +20,7 @@ import {
   isWidthUp,
   withWidth,
 } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ImageIcon from "@material-ui/icons/Image";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
@@ -127,7 +128,14 @@ const styles = (theme) => ({
 });
 
 function NavBar(props) {
-  const { selectedTab, messages, classes, width, openAddBalanceDialog } = props;
+  const {
+    selectedTab,
+    messages,
+    classes,
+    width,
+    openAddBalanceDialog,
+    history,
+  } = props;
   // Will be use to make website more accessible by screen readers
   const links = useRef([]);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -170,6 +178,11 @@ function NavBar(props) {
     {
       link: "/",
       name: "Logout",
+      onClick: () => {
+        localStorage.setItem("remember_session", "false");
+        localStorage.setItem("current_user", "");
+        localStorage.setItem("app_token", "");
+      },
       icon: {
         desktop: (
           <PowerSettingsNewIcon className="text-white" fontSize="small" />
@@ -307,4 +320,6 @@ NavBar.propTypes = {
   openAddBalanceDialog: PropTypes.func.isRequired,
 };
 
-export default withWidth()(withStyles(styles, { withTheme: true })(NavBar));
+export default withWidth()(
+  withRouter(withStyles(styles, { withTheme: true })(NavBar))
+);

@@ -2,6 +2,7 @@ import React, { memo, useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import AOS from "aos/dist/aos";
 import { withStyles } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import NavBar from "./navigation/NavBar";
 import Footer from "./footer/Footer";
 import "aos/dist/aos.css";
@@ -22,7 +23,7 @@ const styles = (theme) => ({
 });
 
 function Main(props) {
-  const { classes } = props;
+  const { classes, history } = props;
   const [selectedTab, setSelectedTab] = useState(null);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [blogPosts, setBlogPosts] = useState([]);
@@ -99,6 +100,16 @@ function Main(props) {
 
   useEffect(fetchBlogPosts, [fetchBlogPosts]);
 
+  useEffect(() => {
+    const remember = localStorage.getItem("remember_session");
+    const user = localStorage.getItem("current_user");
+    const token = localStorage.getItem("app_token");
+
+    if (remember === "true" && user && token) {
+      history.push("/c/dashboard");
+    }
+  }, []);
+
   return (
     <div className={classes.wrapper}>
       {!isCookieRulesDialogOpen && (
@@ -141,4 +152,4 @@ Main.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(memo(Main));
+export default withRouter(withStyles(styles, { withTheme: true })(memo(Main)));
