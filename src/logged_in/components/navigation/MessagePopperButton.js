@@ -12,7 +12,7 @@ import {
   Box,
   withStyles,
 } from "@material-ui/core";
-import MessageIcon from "@material-ui/icons/Message";
+import NotificationIcon from "@material-ui/icons/Notifications";
 import MessageListItem from "./MessageListItem";
 
 const styles = (theme) => ({
@@ -60,7 +60,7 @@ function MessagePopperButton(props) {
         aria-describedby={id}
         color="primary"
       >
-        <MessageIcon />
+        <NotificationIcon />
       </IconButton>
       <Popover
         disableScrollLock
