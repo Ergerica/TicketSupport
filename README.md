@@ -1,5 +1,5 @@
 # Project TIcketSupport
-Project For support for the class SOftware maintenance. Consists of a page to give support to users who need help by creating tickets for IT support with descriptions of their problem.
+Project For support for the class Software maintenance. Consists of a page to give support to users who need help by creating tickets for IT support with descriptions of their problem.
 
 
 
