@@ -2,6 +2,7 @@ import React, { memo, useCallback, useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import Routing from "./Routing";
 import NavBar from "./navigation/NavBar";
 import ConsecutiveSnackbarMessages from "../../shared/components/ConsecutiveSnackbarMessages";
@@ -9,6 +10,7 @@ import smoothScrollTop from "../../shared/functions/smoothScrollTop";
 import persons from "../dummy_data/persons";
 import LazyLoadAddBalanceDialog from "./dashboard/AddTicketInfo";
 import LazyLoadTicketDetailDialog from "./dashboard/ticketDetails/DetailModalInfo";
+import { getNotifications, getTickets, updateTicketStatus } from "../../api";
 
 const styles = (theme) => ({
   main: {
@@ -31,7 +33,7 @@ function shuffle(array) {
 }
 
 function Main(props) {
-  const { classes } = props;
+  const { classes, history } = props;
   const [selectedTab, setSelectedTab] = useState(null);
   const [CardChart, setCardChart] = useState(null);
   const [hasFetchedCardChart, setHasFetchedCardChart] = useState(false);
@@ -90,9 +92,14 @@ function Main(props) {
     },
     [setTicketDetailsOpen]
   );
-  const setStatus = useCallback(() => {
-    alert("hi");
-  }, []);
+  const setStatus = useCallback(
+    (status) => {
+      updateTicketStatus(ticketDetails.ticketID, status).then(() => {
+        window.location.reload();
+      });
+    },
+    [ticketDetails]
+  );
 
   const closeTicketDetails = useCallback(() => {
     setTicketDetailsOpen(false);
@@ -364,16 +371,51 @@ function Main(props) {
     [setPushMessageToSnackbar]
   );
 
+  const fetchTickets = useCallback(() => {
+    getTickets().then((response) => {
+      console.log({ response });
+      if (response && response.tickets && Array.isArray(response.tickets)) {
+        setTickets(response.tickets);
+      }
+    });
+  }, [setTickets]);
+
+  const fetchNotifications = useCallback(() => {
+    const interval = setInterval(() => {
+      getNotifications().then((messages) => {
+        console.log({ messages });
+        if (messages && Array.isArray(messages)) {
+          setMessages(messages.reverse());
+        }
+      });
+    }, 20000);
+    return () => clearInterval(interval);
+  }, [setMessages]);
+
+  useEffect(() => {
+    const remember = localStorage.getItem("remember_session");
+    const user = localStorage.getItem("current_user");
+    const token = localStorage.getItem("app_token");
+
+    if (!user && !token) {
+      history.push("");
+    }
+  }, []);
+
   useEffect(() => {
     fetchRandomTargets();
     fetchRandomStatistics();
-    fetchRandomTickets();
-    fetchRandomMessages();
+    // fetchRandomTickets();
+    // fetchRandomMessages();
+    fetchNotifications();
     fetchRandomPosts();
+    fetchTickets();
   }, [
     fetchRandomTargets,
     fetchRandomStatistics,
     fetchRandomTickets,
+    fetchTickets,
+    fetchNotifications,
     fetchRandomMessages,
     fetchRandomPosts,
   ]);
@@ -434,4 +476,4 @@ Main.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(memo(Main));
+export default withRouter(withStyles(styles, { withTheme: true })(memo(Main)));

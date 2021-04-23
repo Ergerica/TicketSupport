@@ -14,6 +14,7 @@ import FormDialog from "../../../shared/components/FormDialog";
 import HighlightedInformation from "../../../shared/components/HighlightedInformation";
 import ButtonCircularProgress from "../../../shared/components/ButtonCircularProgress";
 import VisibilityPasswordTextField from "../../../shared/components/VisibilityPasswordTextField";
+import { logIn } from "../../../api";
 
 const styles = (theme) => ({
   forgotPassword: {
@@ -46,29 +47,56 @@ function LoginDialog(props) {
     status,
   } = props;
   const [isLoading, setIsLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const loginEmail = useRef();
   const loginPassword = useRef();
 
+  const handleChange = (event) => {
+    setRememberMe(event.target.checked);
+    console.log(event.target.checked);
+  };
+
   const login = useCallback(() => {
     setIsLoading(true);
     setStatus(null);
-    if (loginEmail.current.value !== "test@web.com") {
-      setTimeout(() => {
-        setStatus("invalidEmail");
+
+    console.log(rememberMe);
+
+    logIn(loginEmail.current.value, loginPassword.current.value).then(
+      (response) => {
+        if (response) {
+          console.log({ response });
+          history.push("/c/dashboard");
+
+          console.log("tokeeenee", localStorage.getItem("app_token"));
+          if (rememberMe) {
+            localStorage.setItem("remember_session", "true");
+          }
+          return;
+        }
+
         setIsLoading(false);
-      }, 1500);
-    } else if (loginPassword.current.value !== "HaRzwc") {
-      setTimeout(() => {
         setStatus("invalidPassword");
-        setIsLoading(false);
-      }, 1500);
-    } else {
-      setTimeout(() => {
-        history.push("/c/dashboard");
-      }, 150);
-    }
-  }, [setIsLoading, loginEmail, loginPassword, history, setStatus]);
+      }
+    );
+
+    // if (loginEmail.current.value !== "test@web.com") {
+    //   setTimeout(() => {
+    //     setStatus("invalidEmail");
+    //     setIsLoading(false);
+    //   }, 1500);
+    // } else if (loginPassword.current.value !== "HaRzwc") {
+    //   setTimeout(() => {
+    //     setStatus("invalidPassword");
+    //     setIsLoading(false);
+    //   }, 1500);
+    // } else {
+    //   setTimeout(() => {
+    //     history.push("/c/dashboard");
+    //   }, 150);
+    // }
+  }, [setIsLoading, loginEmail, loginPassword, history, setStatus, rememberMe]);
 
   return (
     <Fragment>
@@ -122,10 +150,7 @@ function LoginDialog(props) {
               }}
               helperText={
                 status === "invalidPassword" ? (
-                  <span>
-                    Incorrect password. Try again, or click on{" "}
-                    <b>&quot;Forgot Password?&quot;</b> to reset it.
-                  </span>
+                  <span>Incorrect password. Try again</span>
                 ) : (
                   ""
                 )
@@ -136,10 +161,10 @@ function LoginDialog(props) {
             />
             <FormControlLabel
               className={classes.formControlLabel}
-              control={<Checkbox color="primary" />}
+              control={<Checkbox onChange={handleChange} color="primary" />}
               label={<Typography variant="body1">Remember me</Typography>}
             />
-            {status === "verificationEmailSend" ? (
+            {/* {status === "verificationEmailSend" ? (
               <HighlightedInformation>
                 We have send instructions on how to reset your password to your
                 email address
@@ -150,7 +175,7 @@ function LoginDialog(props) {
                 <br />
                 Password is: <b>HaRzwc</b>
               </HighlightedInformation>
-            )}
+            )} */}
           </Fragment>
         }
         actions={
@@ -166,7 +191,7 @@ function LoginDialog(props) {
               Login
               {isLoading && <ButtonCircularProgress />}
             </Button>
-            <Typography
+            {/* <Typography
               align="center"
               className={classNames(
                 classes.forgotPassword,
@@ -187,7 +212,7 @@ function LoginDialog(props) {
               }}
             >
               Forgot Password?
-            </Typography>
+            </Typography> */}
           </Fragment>
         }
       />

@@ -13,6 +13,7 @@ import FormDialog from "../../../shared/components/FormDialog";
 import HighlightedInformation from "../../../shared/components/HighlightedInformation";
 import ButtonCircularProgress from "../../../shared/components/ButtonCircularProgress";
 import VisibilityPasswordTextField from "../../../shared/components/VisibilityPasswordTextField";
+import { signUp } from "../../../api";
 
 const styles = (theme) => ({
   link: {
@@ -39,6 +40,8 @@ function RegisterDialog(props) {
   const registerTermsCheckbox = useRef();
   const registerPassword = useRef();
   const registerPasswordRepeat = useRef();
+  const nameInput = useRef();
+  const emailInput = useRef();
 
   const register = useCallback(() => {
     if (!registerTermsCheckbox.current.checked) {
@@ -51,17 +54,37 @@ function RegisterDialog(props) {
       setStatus("passwordsDontMatch");
       return;
     }
+
+    if (!nameInput.current.value) {
+      setStatus("nameTooShort");
+      return;
+    }
+
     setStatus(null);
     setIsLoading(true);
+
+    signUp(
+      nameInput.current.value,
+      emailInput.current.value,
+      registerPassword.current.value
+    ).then((response) => {
+      console.log({ signUp: response });
+      setIsLoading(false);
+      alert("Registro completo");
+      onClose();
+    });
+
     setTimeout(() => {
       setIsLoading(false);
     }, 1500);
   }, [
+    onClose,
     setIsLoading,
     setStatus,
     setHasTermsOfServiceError,
     registerPassword,
     registerPasswordRepeat,
+    nameInput,
     registerTermsCheckbox,
   ]);
 
@@ -80,6 +103,24 @@ function RegisterDialog(props) {
       content={
         <Fragment>
           <TextField
+            inputRef={nameInput}
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            error={status === "nameTooShort"}
+            label="Nombre"
+            autoFocus
+            autoComplete="off"
+            type="text"
+            onChange={() => {
+              if (status === "nameTooShort") {
+                setStatus(null);
+              }
+            }}
+          />
+          <TextField
+            inputRef={emailInput}
             variant="outlined"
             margin="normal"
             required
@@ -205,16 +246,6 @@ function RegisterDialog(props) {
               In order to create an account, you have to accept our terms of
               service.
             </FormHelperText>
-          )}
-          {status === "accountCreated" ? (
-            <HighlightedInformation>
-              We have created your account. Please click on the link in the
-              email we have sent to you before logging in.
-            </HighlightedInformation>
-          ) : (
-            <HighlightedInformation>
-              Registration is disabled until we go live.
-            </HighlightedInformation>
           )}
         </Fragment>
       }

@@ -15,9 +15,12 @@ import FormDialog from "../../../../shared/components/FormDialog";
 
 import HighlightedInformation from "../../../../shared/components/HighlightedInformation";
 import ButtonCircularProgress from "../../../../shared/components/ButtonCircularProgress";
+import { cancelTicket } from "../../../../api";
 
 const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
-const isAdmin = true;
+const isAdmin = !!localStorage.getItem("current_user")
+  ? JSON.parse(localStorage.getItem("current_user")).userType !== "user"
+  : false;
 const paymentOptions = ["SEPA Direct Debit"];
 
 const AddBalanceDialog = withTheme(function (props) {
@@ -108,7 +111,11 @@ const AddBalanceDialog = withTheme(function (props) {
               type="submit"
               size="large"
               disabled={loading}
-              onClick={() => alert("HOLA")}
+              onClick={() => {
+                cancelTicket(ticket.ticketID).then(() => {
+                  window.location.reload();
+                });
+              }}
             >
               Cancelar ticket{loading && <ButtonCircularProgress />}
             </Button>

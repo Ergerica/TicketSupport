@@ -45,6 +45,7 @@ const colors = {
   Canceled: "#AB1243",
   "In Progress": "#00AA42",
   Complete: "#0055aa",
+  pending: "rgba(0, 0, 0, 0.87)",
 };
 
 const rows = [
@@ -108,7 +109,7 @@ function DashboardTable(props) {
                     scope="row"
                     className={classes.firstData}
                   >
-                    {ticket.id}
+                    {ticket.ticketID}
                   </TableCell>
                   <TableCell
                     component="th"
@@ -120,14 +121,14 @@ function DashboardTable(props) {
                   <TableCell component="th" scope="row">
                     <ColorfulChip
                       label={ticket.status}
-                      color={colors[ticket.status]}
+                      color={`${colors[ticket.status]}`.toLowerCase()}
                     />
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {unixToDateString(ticket.timestamp)}
+                    {new Date(ticket.createdAt).toISOString().split("T")[0]}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {ticket.responsible ? ticket.responsible : ""}
+                    {ticket.creatorID ? ticket.creatorID : ""}
                   </TableCell>
                 </TableRow>
               ))}
