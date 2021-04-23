@@ -108,7 +108,7 @@ function Main(props) {
     if (remember === "true" && user && token) {
       history.push("/c/dashboard");
     }
-  }, []);
+  });
 
   return (
     <div className={classes.wrapper}>

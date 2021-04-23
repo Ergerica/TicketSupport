@@ -58,7 +58,6 @@ export const getTickets = async () => {
   await instance
     .get("/tickets")
     .then((r) => {
-      console.log(r);
       response = r.data;
     })
     .catch(function (error) {
@@ -74,7 +73,6 @@ export const cancelTicket = async (id) => {
       { op: "update", path: "status", value: "Canceled" },
     ])
     .then((r) => {
-      console.log(r);
       response = r.data;
     })
     .catch(function (error) {
@@ -88,7 +86,6 @@ export const updateTicketStatus = async (id, status) => {
   await instance
     .patch(`/tickets/${id}`, [{ op: "update", path: "status", value: status }])
     .then((r) => {
-      console.log(r);
       response = r.data;
     })
     .catch(function (error) {
@@ -102,7 +99,6 @@ export const getNotifications = async () => {
   await instance
     .get("/changes")
     .then((r) => {
-      console.log(r);
       response = r.data;
     })
     .catch(function (error) {

@@ -10,7 +10,6 @@ import {
   withStyles,
 } from "@material-ui/core";
 import FormDialog from "../../../shared/components/FormDialog";
-import HighlightedInformation from "../../../shared/components/HighlightedInformation";
 import ButtonCircularProgress from "../../../shared/components/ButtonCircularProgress";
 import VisibilityPasswordTextField from "../../../shared/components/VisibilityPasswordTextField";
 import { signUp } from "../../../api";
@@ -68,7 +67,6 @@ function RegisterDialog(props) {
       emailInput.current.value,
       registerPassword.current.value
     ).then((response) => {
-      console.log({ signUp: response });
       setIsLoading(false);
       alert("Registro completo");
       onClose();
